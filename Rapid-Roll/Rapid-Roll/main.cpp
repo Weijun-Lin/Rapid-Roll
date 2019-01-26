@@ -38,26 +38,26 @@ class BoardThorn;			// 含刺的障碍物
 
 class Game {
 private:
-	SDL_Texture *title;
-	SDL_Texture *startGame;
-	SDL_Texture *authorInfo;
-	SDL_Texture *score;
-	SDL_Texture *rePlay;
-	SDL_Texture *gameOverTitle;
-	void drawStartGame(SDL_Color color);
-	void drawGameOver(SDL_Color color);
-	bool isInStart(int x, int y);
-	bool GameOver();// 游戏结束
+	SDL_Texture *title;					// 标题纹理
+	SDL_Texture *startGame;				// 开始按钮纹理
+	SDL_Texture *authorInfo;			// 开发者信息纹理
+	SDL_Texture *score;					// 分数纹理 --- 在GameOver中初始化
+	SDL_Texture *rePlay;				// 重新开始纹理
+	SDL_Texture *gameOverTitle;			// 结束标题
+	void drawStartGame(SDL_Color color);// 绘制开始游戏按钮，鼠标在上改变颜色
+	void drawGameOver(SDL_Color color); // 同上
+	bool isInStart(int x, int y);		// 判断是否点击开始键
+	bool GameOver();					// 和welcome差不多
 public:
 	Game();
 	bool welcome(); // 欢迎界面
 	void run();		// 游戏运行
 	void quit();
-	Mix_Music *bgm;
-	static Mix_Chunk *takeOff;
-	static Mix_Chunk *bump;
-	static Mix_Chunk *gameOver;
-	static bool isBump;
+	Mix_Music *bgm;						// 背景音乐
+	static Mix_Chunk *takeOff;			// 球碰到障碍物音效
+	static Mix_Chunk *bump;				// 球破裂（损失生命）音效
+	static Mix_Chunk *gameOver;			// 游戏结束音效
+	static bool isBump;					// 判断是否撞到
 };
 
 Mix_Chunk* Game::takeOff = NULL;
@@ -73,15 +73,15 @@ private:
 	void drawFence();
 public:
 	const static int tranigleSize = 10;		// 障碍组成的小三角形的底边大小
-	const static int up = 12;
-	const static int down = HEIGHT;
-	const static int ballSize = 15;
-	const static int boardWidth = 80;
-	const static int maxLife = 5;	// 最多只有5条生命值
-	const static float ballSpeedV;
+	const static int up = 12;				// 上尖刺底边
+	const static int down = HEIGHT;			// 下尖刺底边
+	const static int ballSize = 15;			// 球大小
+	const static int boardWidth = 80;		// 障碍物宽
+	const static int maxLife = 5;			// 最多大生命值
+	const static float ballSpeedV;			
 	const static float ballSpeedH;
 	const static char *windowName;
-	const static char *fontPath;
+	const static char *fontPath;			// 以下，导入外部资源的路径
 	const static char *bumpPath;
 	const static char *takeOffPath;
 	const static char *bgmPath;
@@ -123,7 +123,7 @@ private:
 public:
 	friend Life;
 	Ball(int size_, SDL_Point pos_, float speedV_ = 0, float speedH_ = 0);
-	bool isBump(Board &board_);	// 判断是否与板相撞
+	bool isBump(Board &board_);		// 判断是否与板相撞
 	void move(BoardManager &board_, int type, bool isMusicOn = true);
 	void draw(SDL_Color color = { 0,0,0,0xff });
 };
@@ -175,9 +175,9 @@ class Life {
 	bool isCreat;
 public:
 	Life();
-	void reSet();
-	void creatALife(int clocks, BoardManager boards);
-	bool isEatALife(Ball ball_);
+	void reSet();	// 配合重新开始游戏
+	void creatALife(int clocks, BoardManager boards); // 生成一个生命，生命球移动也在此，每一次主循环均要调用
+	bool isEatALife(Ball ball_);	// 判断是否吃到
 };
 
 int main(int argc, char* args[])
@@ -200,6 +200,7 @@ bool init()
 		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
+	
 	if (TTF_Init() == -1) {
 		cout << TTF_GetError() << endl;
 		return false;
@@ -328,6 +329,7 @@ void BackGround::draw()
 	SDL_DestroyTexture(tex);
 }
 
+// ------------------------------------- Board ------------------------------------
 Board::Board(SDL_Point pos_, int width_, int height_, float speedV_, SDL_Color color_) :
 	pos(pos_), speedV(speedV_), width(width_), height(height_), color(color_)
 {}
@@ -344,6 +346,10 @@ void Board::draw()
 }
 
 // ----------------------------- BoardManager ----------------------------------
+BoardManager::BoardManager() :
+	boardThorn({ -20,-20 }, BackGround::boardHeight, BackGround::boardHeight), isThornExist(false),GAP(100)
+{}
+
 bool BoardManager::isOut(Board & board_)
 {
 	if (board_.pos.y + board_.height / 2 <= BackGround::up) return true;
@@ -361,12 +367,6 @@ void BoardManager::clearInlegal()
 	}
 }
 
-BoardManager::BoardManager() :
-	boardThorn({ -20,-20 }, BackGround::boardHeight, BackGround::boardHeight), isThornExist(false)
-{
-	GAP = 100;
-	//boards.push_back(BoardThorn({ 100,100 }, BackGround::boardWidth, BackGround::boardHeight, BackGround::boardSpeed));
-}
 
 void BoardManager::move()
 {
@@ -401,6 +401,22 @@ void BoardManager::creatABoard(int * last, int now)
 	}
 }
 
+// ------------------------------------------------ Game ----------------------------------
+Game::Game()
+{
+	bgm = Mix_LoadMUS(BackGround::bgmPath);
+	int flag = Mix_PlayMusic(bgm, -1);
+	takeOff = Mix_LoadWAV(BackGround::takeOffPath);
+	bump = Mix_LoadWAV(BackGround::bumpPath);
+	// 绘画Title
+	title = SDL_CreateTextureFromSurface(render, TTF_RenderText_Blended(font, BackGround::windowName, { 0,0,0,0xff }));
+	startGame = SDL_CreateTextureFromSurface(render, TTF_RenderText_Blended(font, "Start Game", { 0,0,0,0xff }));
+	authorInfo = SDL_CreateTextureFromSurface(render, TTF_RenderText_Blended(font, "Produced By Joke-Lin", { 0,0,0,0xff }));
+	rePlay = SDL_CreateTextureFromSurface(render, TTF_RenderText_Blended(font, "RePlay", { 0,0,0,0xff }));
+	gameOverTitle = SDL_CreateTextureFromSurface(render, TTF_RenderText_Blended(font, "Game Over", { 0,0,0,0xff }));
+	score = NULL;
+}
+
 void Game::drawStartGame(SDL_Color color)
 {
 	SDL_SetRenderDrawColor(render, 0, 0, 0, 0xff);
@@ -425,20 +441,6 @@ bool Game::isInStart(int x, int y)
 	return false;
 }
 
-Game::Game()
-{
-	bgm = Mix_LoadMUS(BackGround::bgmPath);
-	int flag = Mix_PlayMusic(bgm, -1);
-	takeOff = Mix_LoadWAV(BackGround::takeOffPath);
-	bump = Mix_LoadWAV(BackGround::bumpPath);
-	// 绘画Title
-	title = SDL_CreateTextureFromSurface(render, TTF_RenderText_Blended(font, BackGround::windowName, { 0,0,0,0xff }));
-	startGame = SDL_CreateTextureFromSurface(render, TTF_RenderText_Blended(font, "Start Game", { 0,0,0,0xff }));
-	authorInfo = SDL_CreateTextureFromSurface(render, TTF_RenderText_Blended(font, "Produced By Joke-Lin", { 0,0,0,0xff }));
-	rePlay = SDL_CreateTextureFromSurface(render, TTF_RenderText_Blended(font, "RePlay", { 0,0,0,0xff }));
-	gameOverTitle = SDL_CreateTextureFromSurface(render, TTF_RenderText_Blended(font, "Game Over", { 0,0,0,0xff }));
-	score = NULL;
-}
 
 bool Game::welcome()
 {
@@ -590,6 +592,7 @@ bool Game::GameOver()	// 差不多就是把开始界面换一个
 	return true;
 }
 
+// -------------------------- Life --------------------------------------------
 Life::Life() :
 	isCreat(false), ball(lifeSize, { -20,-20 })
 {}
@@ -633,6 +636,8 @@ bool Life::isEatALife(Ball ball_)
 	}
 	return false;
 }
+
+// -------------------------- BoardThorn --------------------------------------------
 
 BoardThorn::BoardThorn(SDL_Point pos_, int width_, int height_, float speedV_, SDL_Color color_) :
 	Board(pos_, width_, height_, speedV_, color_)
