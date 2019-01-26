@@ -14,16 +14,16 @@
 
 > 源代码只有一个main.cpp在Rapid-Roll工程目录下
 
-├─EXE								# 项目最后编译结果，exe所在目录  
-│  └─src								# 资源文件   
-│      ├─Audio						# 音效文件  
-│      └─TTF							# 字体文件  
-└─Rapid-Roll						# 工程目录 Visual Studio 结构  
-    ├─Debug							# Debug文件夹  
+├─EXE　　　　　　　　　　　　　　　　# 项目最后编译结果，exe所在目录  
+│  └─src	　　　　　　　　　　　　　　　# 资源文件   
+│      ├─Audio　　　　　　　　　　　　　# 音效文件  
+│      └─TTF　　　　　　　　　　　　　　# 字体文件  
+└─Rapid-Roll　　　　　　　　　　　　　# 工程目录 Visual Studio 结构  
+    ├─Debug　　　　　　　　　　　　　　# Debug文件夹  
     │  └─src  
     │      ├─Audio  
     │      └─TTF  
-    └─Rapid-Roll						# 工程文件  
+    └─Rapid-Roll　　　　　　　　　　　　# 工程文件  
         ├─Debug  
         │  └─Rapid-Roll.tlog  
         ├─Release  
