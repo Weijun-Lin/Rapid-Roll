@@ -1,0 +1,19 @@
+﻿  main.cpp
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(105): warning C4305: “初始化”: 从“double”到“float”截断
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(106): warning C4305: “初始化”: 从“double”到“float”截断
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(107): warning C4305: “初始化”: 从“double”到“float”截断
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(241): warning C4244: “-=”: 从“float”转换到“int”，可能丢失数据
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(242): warning C4244: “+=”: 从“float”转换到“int”，可能丢失数据
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(243): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(263): warning C4244: “+=”: 从“float”转换到“int”，可能丢失数据
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(264): warning C4244: “+=”: 从“float”转换到“int”，可能丢失数据
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(325): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(337): warning C4244: “+=”: 从“float”转换到“int”，可能丢失数据
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(373): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(381): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(495): warning C4305: “=”: 从“double”到“float”截断
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(518): warning C4305: “-=”: 从“double”到“float”截断
+c:\users\23113\source\repos\image_game\sdl\rapid-roll\rapid-roll\rapid-roll\main.cpp(560): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
+  Rapid-Roll.vcxproj -> C:\Users\23113\source\repos\IMAGE_Game\SDL\Rapid-Roll\Rapid-Roll\Debug\Rapid-Roll.exe
